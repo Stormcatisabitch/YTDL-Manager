@@ -1,0 +1,66 @@
+@echo off
+
+echo Simple Youtube-DL Batchfile
+echo Made by Stormcat787
+pause
+goto Begining
+
+:Begining
+cls
+echo What would you like to title the files
+set /p videoname=FileName:
+mkdir "%videoname%"
+copy youtube-dl.exe "%videoname%"
+cd "%videoname%"
+echo What is the URL to the video (YOUTUBE ONLY)
+set /p Videolink=Video URL:
+cls
+goto Choice
+
+
+:Choice
+echo video or music
+
+echo 1.video only
+echo 2.music only
+echo 3.both (Will be seperate files)
+echo 4.exit program
+set /p Choice=Pick a option:
+if "%Choice%" == "1" goto Video
+if "%Choice%" == "2" goto Song
+if "%Choice%" == "3" goto Both
+if "%Choice%" == "4" goto Cleanup
+
+:Song
+youtube-dl -x -f bestaudio %Videolink%
+del Youtube-dl.exe
+cd ..
+cls
+echo Done!
+pause
+goto Begining
+
+
+:Video
+youtube-dl -k -f bestvideo %Videolink%
+del Youtube-dl.exe
+cd ..
+cls
+echo Done!
+pause
+goto Begining
+
+:Both
+youtube-dl -x -f bestaudio %Videolink%
+youtube-dl -k -f bestvideo %Videolink%
+del Youtube-dl.exe
+cd ..
+cls
+echo Done!
+pause
+goto Begining
+
+:Cleanup
+cd ..
+rd /S /Q "%Videoname%"
+exit
